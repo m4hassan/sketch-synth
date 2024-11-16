@@ -15,7 +15,7 @@
 ## Tech Stack
 
 - **Backend:** Django
-- **Frontend:** HTML, Tailwind CSS
+- **Frontend:** HTML, Tailwind CSS, JavaScript
 - **Storage:** Firebase Storage
 - **API:** ModelsLab API for image generation
 
