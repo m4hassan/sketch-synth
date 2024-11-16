@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Sketch-Synth** is a web application that allows users to generate hyper-realistic portraits from hand-drawn sketches, including forensic sketches. Utilizing a powerful AI model through the StableDiffusion API, Sketch-Synth provides a seamless and effective solution for creating high-quality images from simple sketches.
+**Sketch-Synth** is a web application that allows users to generate hyper-realistic portraits from hand-drawn sketches. Utilizing a StableDiffusion model through the ModelsLab API, Sketch-Synth provides a seamless and effective solution for creating high-quality images from simple sketches.
 
 ## Features
 
