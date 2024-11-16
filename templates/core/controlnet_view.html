@@ -1,0 +1,182 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    
+    <div class="flex w-full max-w-6xl mx-auto p-8 bg-white rounded shadow-lg">
+        <!-- Left Container: Form -->
+        <div class="w-1/2 pr-8 bg-white rounded">
+          
+          <form class="mt-8 space-y-3" method="POST" id="controlnet-form">
+              {% csrf_token %}
+              <div class="grid grid-cols-1 space-y-2">
+                  <label class="text-sm font-bold text-gray-500 tracking-wide">Positive Prompt</label>
+                    {{ form.p_prompt }}
+              </div>
+
+              <div class="grid grid-cols-1 space-y-2">
+                <label class="text-sm font-bold text-gray-500 tracking-wide">Negative Prompt</label>
+                  {{ form.n_prompt }}
+              </div>
+              
+              <div class="grid grid-cols-1 space-y-2">
+                    <label class="text-sm font-bold text-gray-500 tracking-wide">Upload Sketch</label>
+                    <div class="flex items-center justify-center w-full">
+                      <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                          <div class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                              <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
+                              <img class="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image">
+                              </div>
+                              <p class="pointer-none text-gray-500 "><span class="text-sm">Drag and drop</span> files here <br /> or <a class="text-blue-600 hover:underline">select a file</a> from your computer</p>
+                          </div>
+                          <!-- <input type="file" class="hidden"> -->
+                          {{ form.init_img }}
+                      </label>
+                    </div>
+              </div>
+                    <p class="text-sm text-gray-300">
+                        <span>File type: jpg,png</span>
+                    </p>
+              <div>
+                  <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide
+                              font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                  Generate
+                  </button>
+              </div>
+          </form>
+          
+            <!-- <h2 class="text-4xl font-bold mb-4">Upload Sketch</h2>
+            <form id="controlnet-form" method="post" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+            </form> -->
+        </div>
+        <!-- Right Container: Image Placeholder -->
+        <div class="w-1/2 pl-8 flex items-center justify-center rounded">
+            <img id="placeholder-image" src="{% static 'dist/images/heroimage1.png' %}" alt="Placeholder" class="w-full max-w-s h-auto rounded shadow-md">
+            <img id="loader-image" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHpzemlyZThwM2NkcW5zeXd2cXkyejloejFvZWZxdDl1OXlndHhvcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l2fWR0jWr2T50OVgxS/giphy.webp" alt="Loader" class="w-1/2 justify-center max-w-xs h-auto rounded hidden">
+            <img id="generated-image" src="" alt="Generated" class="w-full max-w-xs h-auto rounded shadow-md hidden">
+            <button id="reload-button" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-800 rounded hidden">Reload</button>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+	.has-mask {
+		position: absolute;
+		clip: rect(10px, 150px, 130px, 10px);
+	}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('controlnet-form');
+      const placeholderImage = document.getElementById('placeholder-image');
+      const loaderImage = document.getElementById('loader-image');
+      const generatedImage = document.getElementById('generated-image');
+      const reloadButton = document.getElementById('reload-button');
+
+      form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(form);
+
+          generatedImage.classList.add('hidden');
+          placeholderImage.classList.add('hidden');
+          loaderImage.classList.remove('hidden');
+          reloadButton.classList.add('hidden');
+
+          fetch("{% url 'controlnet_view' %}", {
+              method: 'POST',
+              body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+              loaderImage.classList.add('hidden');
+              if (data.output_url) {
+                  generatedImage.src = data.output_url;
+                  generatedImage.onload = function() {
+                      loaderImage.classList.add('hidden');
+                      generatedImage.classList.remove('hidden');
+                      reloadButton.classList.add('hidden');
+                  };
+                  generatedImage.onerror = function() {
+                      reloadButton.classList.remove('hidden');
+                  };
+              } else {
+                  loaderImage.classList.add('hidden');
+                  placeholderImage.classList.remove('hidden');
+                  reloadButton.classList.remove('hidden');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              loaderImage.classList.add('hidden');
+              placeholderImage.classList.remove('hidden');
+              reloadButton.classList.remove('hidden');
+          });
+      });
+
+      reloadButton.addEventListener('click', function() {
+          if (generatedImage.src) {
+              loaderImage.classList.remove('hidden');
+              reloadButton.classList.add('hidden');
+              generatedImage.classList.add('hidden');
+              generatedImage.src = generatedImage.src;  // Trigger image reload
+          }
+      });
+  });
+</script>
+
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('controlnet-form');
+      const placeholderImage = document.getElementById('placeholder-image');
+      const loaderImage = document.getElementById('loader-image');
+      const generatedImage = document.getElementById('generated-image');
+    
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        
+        generatedImage.classList.remove('hidden');
+        generatedImage.classList.add('hidden');
+        placeholderImage.classList.add('hidden');
+        loaderImage.classList.remove('hidden');
+
+        fetch("{% url 'controlnet_view' %}", {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+          loaderImage.classList.add('hidden');
+          if (data.output_url) {
+            generatedImage.src = data.output_url;
+            generatedImage.onload = function() {
+                loaderImage.classList.add('hidden');
+                generatedImage.classList.remove('hidden');
+                };
+          } else {
+            loaderImage.classList.add('hidden');
+            placeholderImage.classList.remove('hidden');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          loaderImage.classList.add('hidden');
+          placeholderImage.classList.remove('hidden');
+        });
+
+      });
+    });
+    </script> -->
+
+{% endblock %}
+

@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex w-full max-w-6xl mx-auto p-8 bg-white rounded shadow-lg">
+    <!-- Left Side: Text Content -->
+    <div class="w-1/2 pr-8">
+      <h1 class="text-4xl font-bold mb-4">sketch-synth</h1>
+      <p class="text-lg mb-6">
+        Welcome to sketch-synth, where we excel in delivering cutting-edge image generation services tailored for transforming hand-drawn sketches into hyper-realistic portraits. Our specialized AI service is crafted to empower users, offering a seamless and cost-effective solution for swiftly creating high-quality images.
+      </p>
+      <a class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" href="{% url 'controlnet_view' %}">click me ✨</a>
+    </div>
+    <!-- Right Side: Placeholder Image -->
+    <div class="w-1/2 pl-8">
+      <img src="{% static 'dist/images/heroimage1.png' %}" alt="Placeholder" class="w-full h-auto rounded shadow-md">
+    </div>
+  </div>
+</div>
+                
+
+{% endblock %}

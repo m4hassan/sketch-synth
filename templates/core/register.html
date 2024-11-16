@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-200 text-gray-700">
+    <br><br><br>
+	<!-- Component Start -->
+	<h1 class="font-bold text-2xl">Welcome Aboard! :)</h1>
+	<form class="flex flex-col bg-white rounded shadow-lg p-12 mt-8" method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        {{ form }}
+		<button class="flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700" type="submit">Sign Up</button>
+		<div class="flex mt-6 justify-center text-xs">
+			<a class="text-blue-400 hover:text-blue-500" href="#">Forgot Password</a>
+			<span class="mx-2 text-gray-300">/</span>
+			<a class="text-blue-400 hover:text-blue-500" href="{% url 'login' %}">Log In</a>
+		</div>
+	</form>
+    <br><br><br>
+	<!-- Component End  -->
+
+</div>
+{% endblock %}

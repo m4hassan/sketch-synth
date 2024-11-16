@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">User Profile</h1>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+            <p class="text-gray-900">{{ user.username }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+            <p class="text-gray-900">{{ user.first_name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+            <p class="text-gray-900">{{ user.last_name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <p class="text-gray-900">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

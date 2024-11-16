@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Your Generated Images</h1>
+    
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for image in creations %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <a href="{{image.generated_img }}" target="_blank" rel="noopener noreferrer">
+                <img src="{{ image.generated_img }}" alt="Generated Image" class="w-full h-auto">
+            </a>
+            <div class="p-4">
+                <p class="text-sm text-gray-700">Prompt: {{ image.p_prompt }}</p>
+                <p class="text-sm text-gray-500">Created at: {{ image.created_at }}</p>
+                <br><br>
+                <a href="{% url 'delete_creation' image.id %}"><button class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-800" type="button">Delete</button></a>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
