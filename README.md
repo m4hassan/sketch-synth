@@ -31,7 +31,7 @@
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/yourusername/sketch-synth.git
+    git clone https://github.com/m4hassan/sketch-synth.git
     cd sketch-synth
     ```
 
