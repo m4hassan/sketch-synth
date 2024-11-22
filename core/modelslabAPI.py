@@ -1,13 +1,16 @@
 import requests
 import json
 import time
+import os
+
+API_KEY = os.environ['MODELSLAB_API_KEY']
 
 def controlnet_api(input_img_url, p_prompt, n_prompt):
 
     p_prompt = "professional photograph, high quality, film grain, Fujifilm XT3, ultra high resolution"
     n_prompt = "pencil sketch, cartoon, illustration, 3d render, cgi, anime, drawing, sketch, painting, animation, low resolution, low quality, low detail, disfigured, bad anatomy"
     api_endpoint = "https://modelslab.com/api/v5/controlnet"
-    key = "ZdOA7vtrmg20hLElq4wXnjt8theMOrJSGKXlkH2dLRYDtwI6beT942gIedCr" #mashudhassandev api key
+    key = f"{API_KEY}" #mashudhassandev api key
 
     payload = json.dumps({
             "key": key,
